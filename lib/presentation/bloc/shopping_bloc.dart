@@ -1,50 +1,39 @@
-import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-// import 'package:shopping_test/data/models/item_model.dart';
-
-import '../../data/model/item_model.dart';
+import 'package:shopping_test/data/model/item_model.dart';
 part 'shopping_event.dart';
 part 'shopping_state.dart';
 
 class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
-  final List<ItemModel> _itemsDeleted = [];
+  /// لیست برای ایتم هایی که قراره از صفحه اصلی و لیست ایتم ها حذف بشند.
+
+  final List<ItemModel> itemRemove = [];
   ShoppingBloc() : super(ShoppingState.initial()) {
+    /// عملیات حذف ایتم از صفحه اصلی.
     on<RemoveItem>((event, emit) {
-      List<ItemModel> items = state.items;
-      _itemsDeleted.add(event.item);
+      /// اینم های موجود در حال حاظر.
+      List<ItemModel> items = [...state.items];
+
+      /// اضافه کردن به لیست ایتم های حذف شده.
+      itemRemove.add(event.item);
+
+      ///حذف از لیست ایتم های صفحه اصلی.
       items.remove(event.item);
+
+      /// ساخت نمونه جدید با در نظر گرفتن نغیرات اعمال شده.
       emit(state.copyWith(items: items));
     });
+
+    ///عملیات برگرداندن ایتم های حذف شده به صفحه و لیست ایتم ها.
     on<RefreshItem>((event, emit) {
-      List<ItemModel> items = _itemsDeleted + state.items;
-      _itemsDeleted.clear();
+      /// در این قسمت لیست ایتم های حذف شده را با لیست ایتم های اصلی ترکیب میکنیم
+      List<ItemModel> items = itemRemove + state.items;
+
+      /// حالا ایتم های لیست راپاک میکنیم بعد از ترکیب
+      itemRemove.clear();
+
+      /// ساخت نمونه مجدد از صفحه با در نظر گرفتن تغیرات اعمال شده.
       emit(state.copyWith(items: items));
     });
   }
 }
-
-// class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
-//   ShoppingBloc() : super(ShoppingState.initial()) {
-//     // on<RemoveItem>((event, emit) {
-//     //   List<ItemModel> items = [...state.items];
-//     //   items.remove(event.index);
-//     //   emit(ShoppingState(items));
-//     //   // items.add(event.index);
-//     // });
-
-//     on<ShoppingEvent>((event, emit) {
-//       if (event is AddItem) {
-//         List<ItemModel> items = [...state.items];
-//         items.add(event.item);
-//         emit(ShoppingState(items));
-//       } else if (event is RemoveItem) {
-//         List<ItemModel> items = [...state.items];
-//         items.remove(event.index);
-//         emit(ShoppingState(items));
-//       }
-//     });
-//     // });
-//   }
-// }

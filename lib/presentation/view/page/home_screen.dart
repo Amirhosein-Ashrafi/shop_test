@@ -38,6 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(width: 25),
             ],
           ),
+
+          /// لیست محصولات
           body: ListView.builder(
             itemCount: state.items.length,
             itemBuilder: (context, index) {
@@ -56,18 +58,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 child: ListTile(
+                  /// عکس محصول
                   leading: Image.asset(
                     state.items[index].image,
                     width: 80,
                     height: 80,
                   ),
+
+                  /// عنوان محصول
                   title: Text(state.items[index].title),
+
+                  /// درباره محصول
                   subtitle: Text(state.items[index].description),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
                         onPressed: () {
+                          /// فراخوانی ایونت حذف محصول برای ایکون دیلیت
                           context
                               .read<ShoppingBloc>()
                               .add(RemoveItem(item: state.items[index]));
@@ -84,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
           floatingActionButton: FloatingActionButton(
             backgroundColor: Colors.grey[900],
             onPressed: () {
+              /// فراخوانی ایونت رفرش کردن و برگردوندن محصولات حذف شده
               context
                   .read<ShoppingBloc>()
                   .add(RefreshItem(item: state.items[0]));

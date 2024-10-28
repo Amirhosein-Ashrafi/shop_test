@@ -4,6 +4,9 @@ class ShoppingState {
   final List<ItemModel> items;
   ShoppingState({required this.items});
 
+  /// مقدار دهی اولیه پارامتر های محصولات
+  /// initial()  <= با استفاده از این دستور  یک شیئ ایجاد میشود
+
   factory ShoppingState.initial() => ShoppingState(items: [
         ItemModel(
           image: "assets/image/iphone15.png",
@@ -42,6 +45,9 @@ class ShoppingState {
                 "Battery to see the elapsed time since iPad was charged"),
       ]);
 
+  /// با استفاده از این متد اگر تغیری در محصولات ایجاد شود این متد با تغیر
+  /// جزیی شی جدیدی از کلاس استیت میسازد و در غیر این صورت از مقدار اصلی
+  /// استفاده میکند.
   ShoppingState copyWith({List<ItemModel>? items}) =>
       ShoppingState(items: items ?? this.items);
 }

@@ -1,3 +1,4 @@
+/// ویژگی های هر محصول
 class ItemModel {
   String image;
   String title;
